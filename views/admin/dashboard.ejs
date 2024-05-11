@@ -1,14 +1,18 @@
 <%- include("../layouts/header.ejs")  %>
 
 
-<section>
+<section class="dashBoardAlign">
 
     <div>
         <div class="dashHeader">
 
             <div class="searchBar">
-                <h1>Dashboard</h1>
-                <input type="text" class="form-control h-2"><button class="btn btn-grey">search</button>
+               <h1>Dashboard</h1> 
+                <form action="/admin/dashboard" method="get" >
+                    <input type="text" class="form-control h-2" name="name" placeholder="search user">
+                    <button type="submit" class="btn btn-grey" >search</button>
+                </form>
+
             </div>
             <div>
                 <button onclick="window.location.href = '/admin/home'" class="btn btn-grey">Go back</button>

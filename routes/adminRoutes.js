@@ -43,7 +43,7 @@ adminRoute.get('/home',adminAuth.isLogin ,adminController.loadDashboard)
 adminRoute.get('/logout',adminAuth.isLogin ,adminController.logout)
 
 adminRoute.get('/dashboard',adminAuth.isLogin, adminController.adminDashboard)
-// adminRoute.get('/dashboard/:nam', adminController.searchUser)
+// adminRoute.get('/dashboard/data', adminController.searchUser)
 
 adminRoute.get('/newUser',adminAuth.isLogin,adminController.newUserLoad)
 adminRoute.post('/newUser',upload.single('image'),adminController.addUser)

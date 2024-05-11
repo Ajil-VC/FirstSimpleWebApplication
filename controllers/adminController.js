@@ -26,6 +26,7 @@ const  loadLogin = async(req,res) => {
 
 
         if( typeof req.session.is_admin === 'undefined'){
+            
             return res.render('login')    
         }else{
             
@@ -125,14 +126,58 @@ const logout = async(req,res) => {
     }
 }
 
+// const adminDashboard = async(req,res) => {
+    
+//     try{
+
+//         if(req.session.user_id && req.session.is_admin){
+
+//             const userData = await User.find({is_admin:0})
+
+//             if(!req.query.name){
+                
+//                return res.render('dashboard',{users : userData})
+//             }else{
+                
+//                 const isAvailable = userData.some(person => person.name == req.query.name )
+//                 console.log(isAvailable)
+//                 // if(isAvailable){
+
+
+//                 //     return res.render('dashboard',{users : userData})
+//                 // }
+                            
+//             }
+
+//         }else{
+//             res.redirect('login')
+//         }
+        
+//     }catch(error){
+        
+//         console.log(error.message,"adminDashboard Error !!!");
+//     }
+// }
 const adminDashboard = async(req,res) => {
 
     try{
-
+       
         if(req.session.user_id && req.session.is_admin){
 
-            const userData = await User.find({is_admin:0})
-            res.render('dashboard',{users : userData})
+            let userData = await User.find({is_admin:0})
+
+            if(!req.query.name){
+                
+               return res.render('dashboard',{users : userData})
+            }else{
+                
+                // let isAvailable = userData.some(person => person.name == req.query.name )
+                userData = await User.find({$or:[{name: req.query.name},{email:req.query.name}]})
+                return res.render('dashboard',{users : userData})
+                
+                            
+            }
+
         }else{
             res.redirect('login')
         }
@@ -142,15 +187,20 @@ const adminDashboard = async(req,res) => {
         console.log(error.message,"adminDashboard Error !!!");
     }
 }
-
-// const searchUser = async (req,res) => {
+// const   searchUser = async (req,res) => {
 
 //     try{
 
-//         console.log(req.params.nam);
-//         const userData = await User.findOne({name:req.params.nam})
         
-//         res.render('dashboard',{users : userData})
+//         const userData = await User.find({name:req.query.name}) 
+            
+//         if(req.session.user_id && req.session.is_admin){
+
+//             const userData = await User.find({is_admin:0})
+//             return res.render('dashboard',{users : userData})
+//         }else{
+//             res.redirect('login')
+//         }
 
 //     }catch(error){
 //         console.log(error.message)
@@ -158,7 +208,7 @@ const adminDashboard = async(req,res) => {
 // }
 
 const newUserLoad = async(req,res) => {
-
+    
         try{
 
             if(req.session.user_id){
@@ -291,7 +341,7 @@ module.exports = {
     loadDashboard,
     logout,
     adminDashboard,
-    searchUser,
+    // searchUser,
     newUserLoad,
     addUser,
     editUserload,
